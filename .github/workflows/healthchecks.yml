@@ -1,0 +1,18 @@
+# This is a basic workflow to help you get started with Actions
+
+name: healthchecks.io pings
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm code@solvaholic.com exists
+        run: |
+          _mailhost=$(dig mx solvaholic.com +short | sort -n | head -n 1 | cut -d\  -f2)
+          echo "EHLO solvaholic.com
+          MAIL FROM: test@solvaholic.com
+          RCPT TO: code@solvaholic.com                 
+          QUIT" | nc $_mailhost 25
