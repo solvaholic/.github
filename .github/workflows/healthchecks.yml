@@ -12,7 +12,11 @@ jobs:
       - name: Confirm code@solvaholic.com exists
         run: |
           _mailhost=$(dig mx solvaholic.com +short | sort -n | head -n 1 | cut -d\  -f2)
-          echo "EHLO solvaholic.com
-          MAIL FROM: test@solvaholic.com
-          RCPT TO: code@solvaholic.com                 
-          QUIT" | nc $_mailhost 25
+          _attempt=1
+          while [ $_attempt -lt 3 ]; do
+            echo "EHLO solvaholic.com
+            MAIL FROM: test@solvaholic.com
+            RCPT TO: code@solvaholic.com
+            QUIT" | nc $_mailhost 25 | grep -F "250 2.1.5 Ok" && break
+            _attempt+=1
+          done
