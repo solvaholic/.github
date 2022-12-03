@@ -8,24 +8,37 @@ on:
     - cron: '3 * * * *'
 
 jobs:
-  healthchecks:
+  code-email:
     runs-on: ubuntu-latest
     steps:
-      - name: Confirm code@solvaholic.com exists
-        env:
-          HC_URL: ${{ secrets.HC_URL_CODE_AT_SOLVAHOLIC_DOT_COM }}
-        run: |
+      - run: |
           _mailhost="$(dig mx solvaholic.com +short | awk 'NR==1 {print$2}')"
-          _attempt=1
+          echo "_mailhost=\"$_mailhost\"" >> "$GITHUB_ENV"
+      - name: Confirm code@solvaholic.com exists
+        run: |
           _result=1
           for _attempt in {1..3}; do
             echo "EHLO solvaholic.com
             MAIL FROM: test@solvaholic.com
             RCPT TO: code@solvaholic.com
-            QUIT" | nc $_mailhost 25 | grep -qsF "250 2.1.5 Ok"
-            _result=$?
-            [ $_result -eq 0 ] && break
+            QUIT"
+            echo "EHLO solvaholic.com
+            MAIL FROM: test@solvaholic.com
+            RCPT TO: code@solvaholic.com
+            QUIT" | nc ${{ env._mailhost }} 25
+            echo "EHLO solvaholic.com
+            MAIL FROM: test@solvaholic.com
+            RCPT TO: code@solvaholic.com
+            QUIT" | nc ${{ env._mailhost }} 25 | grep -qsF "250 2.1.5 Ok"
+            _result="$?"
+            [ "$_result" = "0" ] && break
           done
-          if [ $_result -eq 0 ]; then
+          echo "Result: $_result"
+          echo "_result=\"$_result\"" >> "$GITHUB_ENV"
+      - name: Ping healthchecks.io
+        env:
+          HC_URL: ${{ secrets.HC_URL_CODE_AT_SOLVAHOLIC_DOT_COM }}
+        run: |
+          if [ "${{ env._result }}" = "0" ]; then
             curl -fsS -m 10 --retry 5 -o /dev/null "$HC_URL"
           fi
