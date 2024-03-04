@@ -21,14 +21,6 @@ jobs:
             echo "EHLO solvaholic.com
             MAIL FROM: test@solvaholic.com
             RCPT TO: code@solvaholic.com
-            QUIT"
-            echo "EHLO solvaholic.com
-            MAIL FROM: test@solvaholic.com
-            RCPT TO: code@solvaholic.com
-            QUIT" | nc ${{ env._mailhost }} 25
-            echo "EHLO solvaholic.com
-            MAIL FROM: test@solvaholic.com
-            RCPT TO: code@solvaholic.com
             QUIT" | nc ${{ env._mailhost }} 25 | grep -qsF "250 2.1.5 Ok"
             _result="$?"
             [ "$_result" = "0" ] && break
