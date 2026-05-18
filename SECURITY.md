@@ -12,10 +12,10 @@ If you think it's something someone else should take care of, please speak with 
 
 If you think it's something I should take care of, or if you'd like me to help you find the appropriate audience, please [raise an issue in solvaholic/solvaholic] about it.
 
-In case you'd prefer to speak with me directly, you can reach me [on Keybase]. I watch for notifications from GitHub and Keybase. I don't do email.
+In case you'd prefer to speak with me directly, open an issue in [solvaholic/solvaholic] or email code@solvaholic.com.
 
 [@solvaholic]:https://github.com/solvaholic
 [repositories under github.com/solvaholic]:https://github.com/solvaholic?tab=repositories
-[raise an issue in solvaholic/solvaholic]:https://github.com/solvaholic/solvaholic/issues/new
-[@mention]:https://docs.github.com/get-started/quickstart/github-glossary#mention
-[on Keybase]:https://keybase.io/solvaholic
+[raise an issue in solvaholic/solvaholic]:https://github.com/solvaholic/solvaholic/issues/new/choose
+[solvaholic/solvaholic]:https://github.com/solvaholic/solvaholic/issues/new/choose
+[@mention]:https://docs.github.com/get-started/learning-about-github/github-glossary#mention
